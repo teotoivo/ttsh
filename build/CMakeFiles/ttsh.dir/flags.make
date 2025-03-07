@@ -6,5 +6,5 @@ C_DEFINES =
 
 C_INCLUDES = -I/home/teotoivo/Projects/TeoToivoShell/include
 
-C_FLAGS =  -Wall -Wextra -pedantic -std=gnu2x
+C_FLAGS =  -Wall -Wextra -pedantic -std=c2x
 

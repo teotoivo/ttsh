@@ -35,5 +35,5 @@
 
   ```bash
   git clone git@github.com:teotoivo/ttsh.git
-  cd TeoToivoShell
+  cd ttsh
 

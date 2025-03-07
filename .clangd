@@ -1,3 +1,0 @@
-CompileFlags:
-  Add: [-std=c23, -Wall, -Wextra]
-  CompilationDatabase: "cmake"
