@@ -1,0 +1,3 @@
+/home/teotoivo/Projects/TeoToivoShell/build/CMakeFiles/ttsh.dir
+/home/teotoivo/Projects/TeoToivoShell/build/CMakeFiles/edit_cache.dir
+/home/teotoivo/Projects/TeoToivoShell/build/CMakeFiles/rebuild_cache.dir

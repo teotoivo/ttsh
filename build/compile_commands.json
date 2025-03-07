@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/teotoivo/Projects/TeoToivoShell/build",
+  "command": "/usr/bin/cc  -I/home/teotoivo/Projects/TeoToivoShell/include  -Wall -Wextra -pedantic -std=gnu2x -o CMakeFiles/ttsh.dir/src/main.c.o -c /home/teotoivo/Projects/TeoToivoShell/src/main.c",
+  "file": "/home/teotoivo/Projects/TeoToivoShell/src/main.c",
+  "output": "CMakeFiles/ttsh.dir/src/main.c.o"
+}
+]

@@ -1,0 +1,1 @@
+/usr/bin/cc  -Wall -Wextra -pedantic -Wl,--dependency-file=CMakeFiles/ttsh.dir/link.d CMakeFiles/ttsh.dir/src/main.c.o -o /home/teotoivo/Projects/TeoToivoShell/bin/ttsh
