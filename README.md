@@ -47,7 +47,7 @@ system.  This project is intended for educational purposes not for actual use.
   ### Usage
   
 
-  ## Project structure
+## Project structure
    ```text
    ttsh/
     ├── CMakeLists.txt  # CMake build configuration file
@@ -64,7 +64,7 @@ system.  This project is intended for educational purposes not for actual use.
     │   └── ttsh      # The compiled shell executable
    ```
 
-  ## Project Vision
+## Project Vision
    - [ ] Implement basic command execution.
    - [ ] Add support for command-line arguments.
    - [ ] Implement a basic prompt.
@@ -78,6 +78,6 @@ system.  This project is intended for educational purposes not for actual use.
    - [ ] Improve error handling and user feedback.
 
 
-  ## License
+## License
 
    This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
