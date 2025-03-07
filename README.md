@@ -9,7 +9,7 @@ system.  This project is intended for educational purposes not for actual use.
 
 ## Features
 
-* **None
+* None
 
  
 ## Getting Started
