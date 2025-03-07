@@ -10,3 +10,4 @@
  *.swp
  *.swo
 .cache/
+compile_commands.json
