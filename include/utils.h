@@ -1,7 +1,6 @@
 #ifndef UTILS_H
 #define UTILS_H
 
-#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -16,51 +15,95 @@
 #define COLOR_CYAN "\033[36m"
 #define COLOR_WHITE "\033[37m"
 
-// Printing macros
-#define PRINT_COLOR(color, msg, ...)                                           \
-  do {                                                                         \
-    fprintf(stdout, color msg COLOR_RESET "\n", ##__VA_ARGS__);                \
-  } while (0)
+#define p(...) printf(__VA_ARGS__)
+#define ERROR(msg) fprintf(stderr, COLOR_RED msg COLOR_RESET "\n")
+#define TTSH_TOKEN_DELIM "\t\n\v\f\r "
+#define TTSH_TOKEN_BUFFSIZE 64
 
-#define PRINT_ERROR(msg, ...)                                                  \
-  do {                                                                         \
-    fprintf(stderr, COLOR_RED msg COLOR_RESET "\n", ##__VA_ARGS__);            \
-  } while (0)
+/**
+ * Malloc - Allocates memory with error handling
+ * @size: Number of bytes to allocate
+ * Return: Pointer to allocated memory
+ * Corner cases:
+ * - Zero size: returns NULL
+ * - Allocation failure: prints error and exits
+ */
+void *Malloc(size_t size);
 
-#define PRINT_WARNING(msg, ...)                                                \
-  do {                                                                         \
-    fprintf(stderr, COLOR_YELLOW msg COLOR_RESET "\n", ##__VA_ARGS__);         \
-  } while (0)
+/**
+ * Realloc - Reallocates memory with error handling
+ * @ptr: Pointer to previously allocated memory
+ * @size: New size in bytes
+ * Return: Pointer to reallocated memory
+ * Corner cases:
+ * - NULL ptr: acts as malloc
+ * - Zero size: acts as free
+ * - Allocation failure: prints error and exits
+ */
+void *Realloc(void *ptr, size_t size);
 
-// Safe fopen
-#define SAFE_FOPEN(file, path, mode)                                           \
-  do {                                                                         \
-    file = fopen(path, mode);                                                  \
-    if (!file) {                                                               \
-      PRINT_ERROR("Failed to open file '%s': %s", path, strerror(errno));      \
-      exit(EXIT_FAILURE);                                                      \
-    }                                                                          \
-  } while (0)
+/**
+ * Getline - Reads a line from stream with error handling
+ * @lineptr: Pointer to buffer containing the line
+ * @n: Pointer to size of buffer
+ * @stream: Input stream to read from
+ * Corner cases:
+ * - NULL arguments: prints error
+ * - EOF reached: prints EOF message
+ * - Read error: prints error message
+ */
+void Getline(char **lineptr, size_t *n, FILE *stream);
 
-// Safe malloc
-#define SAFE_MALLOC(ptr, size)                                                 \
-  do {                                                                         \
-    ptr = malloc(size);                                                        \
-    if (!ptr) {                                                                \
-      PRINT_ERROR("Memory allocation failed: %s", strerror(errno));            \
-      exit(EXIT_FAILURE);                                                      \
-    }                                                                          \
-  } while (0)
+/**
+ * Chdir - Changes current working directory with error handling
+ * @path: Directory path to change to
+ * Corner cases:
+ * - NULL path: prints error
+ * - Non-existent path: prints error
+ * - Permission denied: prints error
+ */
+void Chdir(const char *path);
 
-// Safe realloc
-#define SAFE_REALLOC(ptr, new_size)                                            \
-  do {                                                                         \
-    void *temp = realloc(ptr, new_size);                                       \
-    if (!temp) {                                                               \
-      PRINT_ERROR("Memory reallocation failed: %s", strerror(errno));          \
-      exit(EXIT_FAILURE);                                                      \
-    }                                                                          \
-    ptr = temp;                                                                \
-  } while (0)
+/**
+ * Fork - Creates a new process with error handling
+ * Return: PID of child on success, -1 on failure
+ * Corner cases:
+ * - System resource limits: prints error and exits
+ * - Process table full: prints error and exits
+ */
+pid_t Fork(void);
 
-#endif // UTILS_H
+/**
+ * Execvp - Executes a program with error handling
+ * @file: Name of the program to execute
+ * @argv: Array of arguments
+ * Corner cases:
+ * - NULL file/argv: prints error and exits
+ * - Command not found: prints error and exits
+ * - Permission denied: prints error and exits
+ */
+void Execvp(const char *file, char *const argv[]);
+
+/**
+ * Wait - Waits for any child process to terminate with error handling
+ * @status: Location to store status information
+ * Return: PID of the terminated child on success, -1 on failure
+ * Corner cases:
+ * - NULL status: prints error and returns -1
+ * - No child processes: prints error
+ */
+pid_t Wait(int *status);
+
+/**
+ * Waitpid - Waits for process termination with error handling
+ * @pid: Process ID to wait for
+ * @status: Location to store status information
+ * @options: Options for waiting
+ * Return: PID of the child on success, -1 on failure
+ * Corner cases:
+ * - Invalid PID: prints error
+ * - No child processes: prints error
+ */
+pid_t Waitpid(pid_t pid, int *status, int options);
+
+#endif

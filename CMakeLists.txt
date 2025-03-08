@@ -10,7 +10,7 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_EXTENSIONS OFF)
 
 # Compiler warnings and options
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -pedantic -D_GNU_SOURCE")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -Wall -Wextra -pedantic -D_GNU_SOURCE")
 
 # Find all source and header files recursively
 file(GLOB_RECURSE SOURCE_FILES "src/*.c")
