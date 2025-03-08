@@ -64,13 +64,12 @@ system.  This project is intended for educational purposes not for actual use.
    ```
 
 ## Project Vision
-   - [ ] Implement basic command execution.
-   - [ ] Add support for command-line arguments.
+   - [x] Implement basic command execution.
+   - [x] Add support for command-line arguments.
    - [ ] Implement a basic prompt.
-   - [ ] Implement built-in commands (`cd`, `exit`, `help`).
+   - [x] Implement built-in commands (`cd`, `exit`, `help`).
    - [ ] Add support for pipes (`|`).
    - [ ] Add support for input/output redirection (`>`, `<`).
-   - [ ] Implement basic job control (e.g., `Ctrl+C`, `Ctrl+Z`, `bg`, `fg`).
    - [ ] Add a history feature (using arrow keys).
    - [ ] Implement tab completion.
    - [ ] Add support for shell scripts.
