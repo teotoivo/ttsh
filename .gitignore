@@ -1,7 +1,7 @@
- build/
- bin/
  *.o
  *.d
  *~
 .cache/
 compile_commands.json
+bin/
+build/
