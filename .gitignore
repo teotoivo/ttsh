@@ -3,11 +3,5 @@
  *.o
  *.d
  *~
- \#*
- .DS_Store
- /vscode/
- /idea/
- *.swp
- *.swo
 .cache/
 compile_commands.json
