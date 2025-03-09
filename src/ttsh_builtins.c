@@ -1,6 +1,7 @@
 #include "ttsh_builtins.h"
-#include "utils.h"
+#include "ttsh_utils.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 builtin_command builtins[] = {
@@ -38,5 +39,5 @@ int ttsh_help(char **args) {
 
 int ttsh_exit(char **args) {
   (void)args;
-  return 0;
+  exit(EXIT_SUCCESS);
 }

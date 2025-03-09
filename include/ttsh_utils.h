@@ -17,8 +17,6 @@
 
 #define p(...) printf(__VA_ARGS__)
 #define ERROR(msg) fprintf(stderr, COLOR_RED msg COLOR_RESET "\n")
-#define TTSH_TOKEN_DELIM "\t\n\v\f\r "
-#define TTSH_TOKEN_BUFFSIZE 64
 
 /**
  * Malloc - Allocates memory with error handling
@@ -105,5 +103,16 @@ pid_t Wait(int *status);
  * - No child processes: prints error
  */
 pid_t Waitpid(pid_t pid, int *status, int options);
+
+/**
+ * endsWith - Checks if a string ends with another string/suffix
+ * @str: string to check from
+ * @suffix: string/suffinx to check for in the end of str
+ * Return: true if suffix is at the end and false if it isnt
+ * Corner cases:
+ *  - NULL argument or arguments: returns false
+ *  - If suffix is longer than str: returns false
+ */
+bool endsWith(const char *str, const char *suffix);
 
 #endif

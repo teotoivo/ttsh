@@ -1,5 +1,4 @@
 #include "ttsh_core.h"
-#include "utils.h"
 #include <stddef.h>
 #include <stdlib.h>
 
