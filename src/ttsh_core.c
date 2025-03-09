@@ -1,6 +1,7 @@
 #include "ttsh_core.h"
 #include "ttsh_execution.h"
 #include "ttsh_input.h"
+#include "ttsh_prompt.h"
 #include "ttsh_tokenizer.h"
 #include "utils.h"
 #include <stdio.h>
@@ -13,7 +14,7 @@ void ttsh_loop(void) {
 
   do {
     /* Print shell prompt */
-    printf("ttsh >");
+    print_prompt();
 
     /* Read input */
     line = ttsh_read_line();

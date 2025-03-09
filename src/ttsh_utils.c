@@ -1,109 +1,129 @@
 #include "ttsh_utils.h"
+#include "ttsh_config.h"
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/wait.h>
+#include <unistd.h>
 
+extern Config *config; // Ensure that global config is defined elsewhere
+// Assume COLOR_RESET is defined elsewhere, for example:
+// #define COLOR_RESET "\033[0m"
+
+/* Malloc wrapper using error color from config */
 void *Malloc(size_t size) {
   void *ptr;
 
   if (size == 0)
-    return (NULL);
+    return NULL;
   ptr = malloc(size);
   if (!ptr) {
-    perror(COLOR_RED "Malloc failed" COLOR_RESET);
+    PERROR("Malloc failed");
     exit(EXIT_FAILURE);
   }
-  return (ptr);
+  return ptr;
 }
 
+/* Realloc wrapper using error color from config */
 void *Realloc(void *ptr, size_t size) {
   void *new_ptr;
 
   new_ptr = realloc(ptr, size);
   if (!new_ptr && size != 0) {
-    perror(COLOR_RED "Realloc failed" COLOR_RESET);
+    PERROR("Realloc failed");
     exit(EXIT_FAILURE);
   }
-  return (new_ptr);
+  return new_ptr;
 }
 
+/* Getline wrapper using error color from config */
 void Getline(char **lineptr, size_t *n, FILE *stream) {
   if (!lineptr || !stream) {
-    fprintf(stderr, COLOR_RED "Getline: invalid arguments\n" COLOR_RESET);
+    ERROR("Getline: invalid arguments\n");
     return;
   }
   if (getline(lineptr, n, stream) == -1) {
     free(*lineptr);
     *lineptr = NULL;
     if (feof(stream)) {
-      printf(COLOR_RED "[EOF]" COLOR_RESET "\n");
+      printf("%s[EOF]%s\n", config->theme.error, COLOR_RESET);
       exit(EXIT_SUCCESS);
     } else {
-      perror(COLOR_RED "Getline failed" COLOR_RESET);
+      PERROR("Getline failed");
       exit(EXIT_FAILURE);
     }
   }
 }
 
+/* Change directory with error message using config error color */
 void Chdir(const char *path) {
   if (!path) {
-    fprintf(stderr, COLOR_RED "cd: path argument required\n" COLOR_RESET);
+    fprintf(stderr, "%scd: path argument required%s\n", config->theme.error,
+            COLOR_RESET);
+    ERROR("cd: path argument required\n");
     return;
   }
   if (chdir(path) == -1)
-    perror(COLOR_RED "cd failed" COLOR_RESET);
+    PERROR("cd failed");
 }
 
+/* Fork wrapper using error color from config */
 pid_t Fork(void) {
   pid_t pid;
 
   pid = fork();
   if (pid < 0) {
-    perror(COLOR_RED "Fork failed" COLOR_RESET);
+    PERROR("fork failed");
     exit(EXIT_FAILURE);
   }
-  return (pid);
+  return pid;
 }
 
+/* Execvp wrapper using error color from config */
 void Execvp(const char *file, char *const argv[]) {
   if (!file || !argv) {
-    fprintf(stderr, COLOR_RED "Execvp: invalid arguments\n" COLOR_RESET);
+    fprintf(stderr, "%sExecvp: invalid arguments%s\n", config->theme.error,
+            COLOR_RESET);
     exit(EXIT_FAILURE);
   }
   if (execvp(file, argv) == -1) {
-    perror(COLOR_RED "ttsh failed" COLOR_RESET);
+    PERROR("ttsh failed");
     exit(EXIT_FAILURE);
   }
 }
 
+/* Wait wrapper using error color from config */
 pid_t Wait(int *status) {
   pid_t result;
 
   if (!status) {
-    fprintf(stderr, COLOR_RED "Wait: status argument required\n" COLOR_RESET);
-    return (-1);
+    ERROR("Wait: status argument required\n");
+    return -1;
   }
   result = wait(status);
   if (result == -1)
-    perror(COLOR_RED "Wait failed" COLOR_RESET);
+    PERROR("wait failed");
   if (WIFEXITED(*status))
     *status = WEXITSTATUS(*status);
-  return (result);
+  return result;
 }
 
+/* Waitpid wrapper using error color from config */
 pid_t Waitpid(pid_t pid, int *status, int options) {
   pid_t result;
 
   if (!status)
-    return (-1);
+    return -1;
   result = waitpid(pid, status, options);
   if (result == -1)
-    perror(COLOR_RED "Waitpid failed" COLOR_RESET);
+    PERROR("waitpid failed");
   if (WIFEXITED(*status))
     *status = WEXITSTATUS(*status);
-  return (result);
+  return result;
 }
 
+/* Check if a string ends with a given suffix */
 bool endsWith(const char *str, const char *suffix) {
   if (!str || !suffix) {
     return false;
@@ -114,6 +134,5 @@ bool endsWith(const char *str, const char *suffix) {
   if (suffix_len > str_len) {
     return false;
   }
-
   return (strcmp(str + str_len - suffix_len, suffix) == 0);
 }

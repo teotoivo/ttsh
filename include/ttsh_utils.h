@@ -1,22 +1,31 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#include "ttsh_config.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-// Color macros
-#define COLOR_RESET "\033[0m"
-#define COLOR_RED "\033[31m"
-#define COLOR_GREEN "\033[32m"
-#define COLOR_YELLOW "\033[33m"
-#define COLOR_BLUE "\033[34m"
-#define COLOR_MAGENTA "\033[35m"
-#define COLOR_CYAN "\033[36m"
-#define COLOR_WHITE "\033[37m"
-
 #define p(...) printf(__VA_ARGS__)
-#define ERROR(msg) fprintf(stderr, COLOR_RED msg COLOR_RESET "\n")
+
+#define pc(color, fmt, ...)                                                    \
+  do {                                                                         \
+    printf("%s" fmt "%s", color, ##__VA_ARGS__, COLOR_RESET);                  \
+  } while (0)
+
+#define ERROR(fmt, ...)                                                        \
+  do {                                                                         \
+    fprintf(stderr, "%s" fmt "%s\n", get_config()->theme.error, ##__VA_ARGS__, \
+            COLOR_RESET);                                                      \
+  } while (0)
+
+#define PERROR(fmt, ...)                                                       \
+  do {                                                                         \
+    char _err_buf[1024];                                                       \
+    snprintf(_err_buf, sizeof(_err_buf), "%s" fmt "%s",                        \
+             get_config()->theme.error, ##__VA_ARGS__, COLOR_RESET);           \
+    perror(_err_buf);                                                          \
+  } while (0)
 
 /**
  * Malloc - Allocates memory with error handling

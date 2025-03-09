@@ -1,4 +1,5 @@
 #include "ttsh_builtins.h"
+#include "ttsh_config.h"
 #include "ttsh_utils.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -20,7 +21,7 @@ int ttsh_cd(char **args) {
     ERROR("ttsh: expected arguments to \"cd\"\n");
   } else {
     if (chdir(args[1]) != 0) {
-      perror(COLOR_RED "lsh" COLOR_RESET);
+      PERROR("ttsh");
     }
   }
   return 1;
