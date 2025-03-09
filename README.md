@@ -28,50 +28,51 @@ TeoToivoShell (ttsh) is a simple, custom-built shell program written in C. It pr
 
 1. **Clone the repository:**
 
-    ```bash
-    git clone git@github.com:teotoivo/ttsh.git
-    cd ttsh
-    ```
+```bash
+git clone git@github.com:teotoivo/ttsh.git
+cd ttsh
+```
 
 2. Build the executable
-    ```bash
-    make build
-    ```
-    The compiled executable (`ttsh`) will be located in the bin directory
+```bash
+make build
+```
+The compiled executable (`tsh`) will be located in the bin directory
 
 ### Running the Shell
-    start the shell with either of these methods:
-    * via Make:
-    ```bash
-    make run # Or execute the binary
-    ```
-    * Direct Execution
-    ```bash
-    cd bin
-    ./ttsh
-    ```
+
+start the shell with either of these methods:
+* via Make:
+```bash
+make run # Or execute the binary
+```
+* Direct Execution
+```bash
+cd bin
+./ttsh
+```
     
-    You will see the `ttsh >` prompt where you can start entering commands.
+You will see the `ttsh >` prompt where you can start entering commands.
 
 ### Usage Examples
 
-    * Changing Directory:
-    ```bash
-    ttsh > cd /path/to/directory
-    ```
-    * Listing files:
-    ```bash
-    ttsh > ls -la
-    ```
-    * Chaining Commands:
-    ```bash
-    ttsh > mkdir new_filder && cd new_folder
-    ```
-    * Line Continuation:
-    ```bash
-    ttsh > echo "This is a long command \
-    that spans multiple lines"
-    ```
+* Changing Directory:
+```bash
+ttsh > cd /path/to/directory
+```
+* Listing files:
+```bash
+ttsh > ls -la
+```
+* Chaining Commands:
+```bash
+ttsh > mkdir new_filder && cd new_folder
+```
+* Line Continuation:
+```bash
+ttsh > echo "This is a long command \
+that spans multiple lines"
+```
 
 ## Project Structure
 
@@ -89,4 +90,4 @@ TeoToivoShell (ttsh) is a simple, custom-built shell program written in C. It pr
 ├── LICENSE.md             # Project license (MIT)
 ├── makefile               # Makefile for automation
 └── README.md              # This file (project overview and instructions)
-
+```
