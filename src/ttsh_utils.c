@@ -1,6 +1,7 @@
 #include "ttsh_utils.h"
 #include "ttsh_config.h"
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -37,6 +38,18 @@ void *Realloc(void *ptr, size_t size) {
   return new_ptr;
 }
 
+ssize_t Write(int fd, const void *buf, size_t count) {
+  ssize_t bytes_written;
+  bytes_written = write(fd, buf, count);
+
+  if (bytes_written == -1) {
+    PERROR("Write failed");
+    exit(EXIT_FAILURE);
+  }
+
+  return bytes_written;
+}
+
 /* Getline wrapper using error color from config */
 void Getline(char **lineptr, size_t *n, FILE *stream) {
   if (!lineptr || !stream) {
@@ -54,6 +67,19 @@ void Getline(char **lineptr, size_t *n, FILE *stream) {
       exit(EXIT_FAILURE);
     }
   }
+}
+
+ssize_t Read(int fd, void *buf, size_t count) {
+  ssize_t result;
+
+  result = read(fd, buf, count);
+
+  if (result == -1) {
+    PERROR("Read failed");
+    exit(EXIT_FAILURE);
+  }
+
+  return result;
 }
 
 /* Change directory with error message using config error color */
