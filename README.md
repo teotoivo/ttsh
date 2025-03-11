@@ -17,8 +17,8 @@ system.  This project is intended for educational purposes not for actual use.
  ### Prerequisites
  
   *  A C compiler (e.g., GCC, Clang)
-  *  CMake (version 3.15 or higher)
   *  Make (or a compatible build tool)
+  *  Bear (optional but needed for build_commands.json)
  
 
  ### Building
@@ -32,7 +32,7 @@ system.  This project is intended for educational purposes not for actual use.
   2.  **Build the executable:**
 
    ```bash
-   make build
+   bear -- make build
    ```
    the executable (*ttsh*) is found in *bin* directory
 

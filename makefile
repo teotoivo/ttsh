@@ -1,28 +1,53 @@
-PROJECT_DIR := .
-BUILD_DIR   := build
+# Compiler and flags
+CC      := clang
+CFLAGS  := -g -Wall -Wextra -pedantic -D_GNU_SOURCE -std=c23 -Iinclude -Wno-gnu-zero-variadic-macro-arguments
+LDFLAGS :=
 
-# Default target
-all: build run
+# Directories and target name
+SRC_DIR := src
+OBJ_DIR := obj
+BIN_DIR := bin
+TARGET  := ttsh
 
-build:
-	@mkdir -p $(BUILD_DIR)
-	@cmake -S $(PROJECT_DIR) -B $(BUILD_DIR)
-	@cmake --build $(BUILD_DIR)
-	@if [ -f $(BUILD_DIR)/compile_commands.json ]; then \
-		cp $(BUILD_DIR)/compile_commands.json $(PROJECT_DIR)/compile_commands.json; \
-		echo "Copied compile_commands.json to project root."; \
-	else \
-		echo "compile_commands.json not found in build directory."; \
-	fi
+# Source and object files
+SRC := $(shell find $(SRC_DIR) -type f -name '*.c')
+OBJ := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
-run:
-	@clear
-	@$(PROJECT_DIR)/bin/ttsh
+# Default target: build and run
+.PHONY: all
+all: $(BIN_DIR)/$(TARGET)
+	./$(BIN_DIR)/$(TARGET) $(ARGS)
 
+# Build target (compiles without running)
+.PHONY: build
+build: $(BIN_DIR)/$(TARGET)
+
+# Link: combine object files into the final executable
+$(BIN_DIR)/$(TARGET): $(OBJ)
+	@mkdir -p $(BIN_DIR)
+	$(CC) $(LDFLAGS) -o $@ $^
+
+# Compile: create object files from source files and generate dependencies
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c -o $@ $< -MMD -MP
+
+# Include automatically generated dependency files
+-include $(OBJ:.o=.d)
+
+# Run: execute the built target
+.PHONY: run
+run: $(BIN_DIR)/$(TARGET)
+	./$(BIN_DIR)/$(TARGET) $(ARGS)
+
+# Install: copy the executable to DESTDIR/bin (use DESTDIR when needed)
+.PHONY: install
+install: $(BIN_DIR)/$(TARGET)
+	install -d $(DESTDIR)/bin
+	install $(BIN_DIR)/$(TARGET) $(DESTDIR)/bin
+
+# Clean: remove build artifacts
+.PHONY: clean
 clean:
-	@rm -rf $(BUILD_DIR)
-	@rm -rf $(PROJECT_DIR)/bin
-	@rm -f $(PROJECT_DIR)/compile_commands.json
-
-.PHONY: all build run clean
+	rm -rf $(OBJ_DIR) $(BIN_DIR)
 
