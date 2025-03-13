@@ -1,13 +1,25 @@
 #include "ttsh_prompt.h"
 #include "ttsh_config.h"
 #include "ttsh_utils.h"
+#include <stddef.h>
 #include <stdio.h>
 #include <unistd.h>
 
+size_t current_prompt_length;
+
 void print_prompt(void) {
-  pc(get_config()->theme.cdir, "%s", get_short_cwd());
-  pc(get_config()->theme.prompt_prefix, " %s ",
-     get_config()->options.prompt_prefix);
+  char *cwd = get_short_cwd();
+  char *prefix = get_config()->options.prompt_prefix;
+
+  // Calculate the visible length of the prompt.
+  // The first part is the cwd and the second part is the prompt prefix
+  // surrounded by spaces.
+  current_prompt_length =
+      strlen(cwd) + strlen(prefix) + 2; // +2 for the two spaces
+
+  // Print the prompt parts with the specified color themes.
+  pc(get_config()->theme.cdir, "%s", cwd);
+  pc(get_config()->theme.prompt_prefix, " %s ", prefix);
 }
 
 char *get_short_cwd(void) {

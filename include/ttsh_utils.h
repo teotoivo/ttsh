@@ -124,4 +124,32 @@ pid_t Waitpid(pid_t pid, int *status, int options);
  */
 bool endsWith(const char *str, const char *suffix);
 
+/**
+ * Read - A wrapper around read() that handles errors.
+ *
+ * This function repeatedly calls read() on the given file descriptor until
+ * it either succeeds or fails with an error other than EINTR.
+ *
+ * @param fd:    The file descriptor to read from.
+ * @param buf:   The buffer to store the read data.
+ * @param count: The maximum number of bytes to read.
+ *
+ * @return The number of bytes read on success
+ */
+ssize_t Read(int fd, void *buf, size_t count);
+
+/**
+ * Write - A wrapper around write() that handles errors.
+ *
+ * This function calls write() on the given file descriptor and checks for
+ * errors. If the write operation fails, it prints an error message.
+ *
+ * @param fd:    The file descriptor to write to.
+ * @param buf:   The buffer containing the data to write.
+ * @param count: The number of bytes to write.
+ *
+ * @return The number of bytes written on success
+ */
+ssize_t Write(int fd, const void *buf, size_t count);
+
 #endif
