@@ -24,12 +24,6 @@ void ttsh_loop(void) {
     line = ttsh_read_line();
     disableRawMode();
 
-    p("%s\n", line);
-    fflush(stdout);
-
-    free(line);
-    continue;
-
     /* Tokenize the input */
     args = ttsh_tokenize(line);
 

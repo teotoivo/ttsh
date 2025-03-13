@@ -3,15 +3,26 @@
 #include <stddef.h>
 #include <termios.h>
 
-#define TTSH_INITIAL_LINE_BUFFSIZE 128
+#define TTSH_INITIAL_LINE_BUF_SIZE 64
 
-void handle_eof(char *c);
+// ASCII Control Characters
+#define CTRL_C 3  // Interrupt signal
+#define CTRL_D 4  // End-of-file (EOF)
+#define CTRL_Z 26 // Suspend process
+#define CTRL_L 12 // Clear screen
 
-int handle_newline(char *c, char **buffer, size_t *pos, size_t *length);
+// Escape key
+#define KEY_ESCAPE 27 // ESC
 
-bool handle_backspace(char *c, size_t *pos);
+#define KEY_BACKSPACE_1 127
+#define KEY_BACKSPACE_2 8
 
-void remove_character(char **array, int index, int array_length);
+// Additional keys (these sequences can vary between terminal emulators)
+#define HOME_KEY_SEQ "\x1b[H" // or "\x1b[1~"
+#define END_KEY_SEQ "\x1b[F"  // or "\x1b[4~"
+#define PAGE_UP_SEQ "\x1b[5~"
+#define PAGE_DOWN_SEQ "\x1b[6~"
+#define DELETE_KEY_SEQ "\x1b[3~"
 
 /**
  * ttsh_read_line - Reads a line of input from stdin and processes
@@ -21,7 +32,5 @@ void remove_character(char **array, int index, int array_length);
  * freeing it.
  */
 char *ttsh_read_line(void);
-
-bool process_arrow_key(char initial, size_t *pos);
 
 #endif
