@@ -6,9 +6,6 @@ TeoToivoShell (ttsh) is a simple, custom-built shell program written in C. It pr
 
 ## Features
 
-<<<<<<< HEAD
-* None
-
  
 ## Getting Started
  
@@ -103,11 +100,6 @@ ttsh > ls -la
 * Chaining Commands:
 ```bash
 ttsh > mkdir new_filder && cd new_folder
-```
-* Line Continuation:
-```bash
-ttsh > echo "This is a long command \
-that spans multiple lines"
 ```
 
 ## Project Structure
