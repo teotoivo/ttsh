@@ -9,6 +9,13 @@ OBJ_DIR := obj
 BIN_DIR := bin
 TARGET  := ttsh
 
+# libraries
+LIB_DIR := libs
+LIB_SRC   := $(shell find $(LIB_DIR) -type f -name '*.c')
+LIB_OBJ   := $(patsubst $(LIB_DIR)/%.c, $(OBJ_DIR)/$(LIB_DIR)/%.o, $(LIB_SRC))
+CFLAGS += -Ilibs/linenoise
+
+
 # Source and object files
 SRC := $(shell find $(SRC_DIR) -type f -name '*.c')
 OBJ := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
@@ -23,7 +30,7 @@ all: $(BIN_DIR)/$(TARGET)
 build: $(BIN_DIR)/$(TARGET)
 
 # Link: combine object files into the final executable
-$(BIN_DIR)/$(TARGET): $(OBJ)
+$(BIN_DIR)/$(TARGET): $(OBJ) $(LIB_OBJ)
 	@mkdir -p $(BIN_DIR)
 	$(CC) $(LDFLAGS) -o $@ $^
 
@@ -32,8 +39,14 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c -o $@ $< -MMD -MP
 
+# Compile library source files from LIB_DIR
+$(OBJ_DIR)/$(LIB_DIR)/%.o: $(LIB_DIR)/%.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -c -o $@ $< -MMD -MP
+
 # Include automatically generated dependency files
 -include $(OBJ:.o=.d)
+-include $(LIB_OBJ:.o=.d)
 
 # Run: execute the built target
 .PHONY: run
