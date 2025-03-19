@@ -30,7 +30,6 @@ char *ttsh_readline(char *prompt) {
     free(new_line);
   }
 
-  printf("%s", line);
   return line;
 }
 
