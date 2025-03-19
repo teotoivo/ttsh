@@ -7,11 +7,8 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-extern Config *config; // Ensure that global config is defined elsewhere
-// Assume COLOR_RESET is defined elsewhere, for example:
-// #define COLOR_RESET "\033[0m"
+extern Config *config;
 
-/* Malloc wrapper using error color from config */
 void *Malloc(size_t size) {
   void *ptr;
 
@@ -25,7 +22,6 @@ void *Malloc(size_t size) {
   return ptr;
 }
 
-/* Realloc wrapper using error color from config */
 void *Realloc(void *ptr, size_t size) {
   void *new_ptr;
 
@@ -37,7 +33,6 @@ void *Realloc(void *ptr, size_t size) {
   return new_ptr;
 }
 
-/* Getline wrapper using error color from config */
 void Getline(char **lineptr, size_t *n, FILE *stream) {
   if (!lineptr || !stream) {
     ERROR("Getline: invalid arguments\n");
@@ -56,7 +51,6 @@ void Getline(char **lineptr, size_t *n, FILE *stream) {
   }
 }
 
-/* Change directory with error message using config error color */
 void Chdir(const char *path) {
   if (!path) {
     fprintf(stderr, "%scd: path argument required%s\n", config->theme.error,
@@ -68,7 +62,6 @@ void Chdir(const char *path) {
     PERROR("cd failed");
 }
 
-/* Fork wrapper using error color from config */
 pid_t Fork(void) {
   pid_t pid;
 
@@ -80,7 +73,6 @@ pid_t Fork(void) {
   return pid;
 }
 
-/* Execvp wrapper using error color from config */
 void Execvp(const char *file, char *const argv[]) {
   if (!file || !argv) {
     fprintf(stderr, "%sExecvp: invalid arguments%s\n", config->theme.error,
@@ -93,7 +85,6 @@ void Execvp(const char *file, char *const argv[]) {
   }
 }
 
-/* Wait wrapper using error color from config */
 pid_t Wait(int *status) {
   pid_t result;
 
@@ -109,7 +100,6 @@ pid_t Wait(int *status) {
   return result;
 }
 
-/* Waitpid wrapper using error color from config */
 pid_t Waitpid(pid_t pid, int *status, int options) {
   pid_t result;
 
@@ -123,7 +113,6 @@ pid_t Waitpid(pid_t pid, int *status, int options) {
   return result;
 }
 
-/* Check if a string ends with a given suffix */
 bool endsWith(const char *str, const char *suffix) {
   if (!str || !suffix) {
     return false;
