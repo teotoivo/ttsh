@@ -1,0 +1,7 @@
+/home/teotoivo/Projects/ttsh/build/CMakeFiles/ttsh.dir
+/home/teotoivo/Projects/ttsh/build/CMakeFiles/edit_cache.dir
+/home/teotoivo/Projects/ttsh/build/CMakeFiles/rebuild_cache.dir
+/home/teotoivo/Projects/ttsh/build/CMakeFiles/list_install_components.dir
+/home/teotoivo/Projects/ttsh/build/CMakeFiles/install.dir
+/home/teotoivo/Projects/ttsh/build/CMakeFiles/install/local.dir
+/home/teotoivo/Projects/ttsh/build/CMakeFiles/install/strip.dir
